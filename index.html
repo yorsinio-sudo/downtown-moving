@@ -370,6 +370,19 @@
                         <label for="message">Additional Details</label>
                         <textarea id="message" rows="4" placeholder="Tell us a little bit about the origin and destination..."></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="elevator">Does the building have a freight elevator available?</label>
+                        <select id="elevator" name="elevator" required>
+                            <option value="">Select an option...</option>
+                            <option value="yes-reserved">Yes, reserved</option>
+                            <option value="yes-no-reservation">Yes, but without reservation</option>
+                            <option value="no-stairs">No, it's by stairs</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="postal-code">Toronto Postal Code</label>
+                        <input type="text" id="postal-code" name="postal-code" required placeholder="E.g. M1B 2C3" pattern="[Mm][0-9][A-Za-z][ ]?[0-9][A-Za-z][0-9]" title="Enter a valid Toronto postal code starting with M (e.g. M1B 2C3)">
+                    </div>
                     <button type="submit" class="btn-primary submit-btn">Send Request <i class="fa-solid fa-paper-plane"></i></button>
                     <p id="form-message" class="form-status hidden">Request sent successfully! We will contact you soon.</p>
                 </form>

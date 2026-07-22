@@ -660,3 +660,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+// Inicializar el autocompletado de Google Maps en los campos de dirección
+function initAutocomplete() {
+  // 1. Cambia 'pickup' y 'dropoff' por los ID reales que tengan tus inputs de dirección en el HTML
+  const pickupInput = document.getElementById('pickup'); 
+  const dropoffInput = document.getElementById('dropoff'); 
+
+  const options = {
+    componentRestrictions: { country: "ca" }, // Limita las sugerencias solo a Canadá
+    fields: ["address_components", "geometry", "name"],
+  };
+
+  if (pickupInput) {
+    new google.maps.places.Autocomplete(pickupInput, options);
+  }
+  if (dropoffInput) {
+    new google.maps.places.Autocomplete(dropoffInput, options);
+  }
+}
+
+// Ejecutar cuando la página esté completamente cargada
+window.addEventListener('load', initAutocomplete);

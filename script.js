@@ -662,21 +662,20 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 // Inicializar el autocompletado de Google Maps en los campos de dirección
 function initAutocomplete() {
-  // 1. Cambia 'pickup' y 'dropoff' por los ID reales que tengan tus inputs de dirección en el HTML
-  const pickupInput = document.getElementById('pickup'); 
-  const dropoffInput = document.getElementById('dropoff'); 
+    // Use the actual input IDs from the HTML and restrict suggestions to Canada
+    const pickupInput = document.getElementById('inputOrigin');
+    const dropoffInput = document.getElementById('inputDestination');
 
-  const options = {
-    componentRestrictions: { country: "ca" }, // Limita las sugerencias solo a Canadá
-    fields: ["address_components", "geometry", "name"],
-  };
+    const options = {
+        componentRestrictions: { country: 'ca' }, // Limit suggestions to Canada
+        fields: ['address_components', 'geometry', 'name', 'formatted_address'],
+        types: ['address']
+    };
 
-  if (pickupInput) {
-    new google.maps.places.Autocomplete(pickupInput, options);
-  }
-  if (dropoffInput) {
-    new google.maps.places.Autocomplete(dropoffInput, options);
-  }
+    if (window.google && google.maps && google.maps.places) {
+        if (pickupInput) new google.maps.places.Autocomplete(pickupInput, options);
+        if (dropoffInput) new google.maps.places.Autocomplete(dropoffInput, options);
+    }
 }
 
 // Ejecutar cuando la página esté completamente cargada

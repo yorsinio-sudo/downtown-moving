@@ -1,3 +1,30 @@
+// =========================================
+// SITE CONFIG - edit these values to change coverage and prices
+// =========================================
+// A move is quoted online only if BOTH addresses mention one of these cities.
+// Anything else shows "Custom quote" and goes to you for manual pricing.
+const SERVICE_CITIES = [
+    'st. catharines', 'st catharines', 'saint catharines',
+    'thorold', 'niagara-on-the-lake', 'niagara on the lake', 'virgil',
+    'niagara falls', 'welland',
+    'pelham', 'fonthill', 'fenwick',
+    'grimsby',
+    'lincoln, on', 'beamsville', 'vineland'
+];
+const PRICING = {
+    base: 120,           // base vehicle & booking cost ($)
+    perKm: 2.5,          // $ per driving km (real distance from Google Maps)
+    elevatorPerFloor: 5, // $ per floor when an elevator is available
+    stairsPerFloor: 15,  // $ per floor when stairs only
+    customItem: 12       // $ per special item typed in "Other items"
+};
+// Autocomplete suggestions are biased towards the Niagara Region
+const NIAGARA_BOUNDS = { south: 42.85, west: -79.65, north: 43.35, east: -79.0 };
+
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // =========================================
     // 1. Navbar Sticky & Scroll Effect
@@ -97,6 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const sumPriceVal = document.getElementById('sumPriceVal');
 
     // Calculator State
+    let routeKm = null;        // real driving distance in km (Google Maps)
+    let routeKey = '';
+    let routeState = 'idle';   // idle | loading | ok | error
+    let routeTimer = null;
     let selectedHousing = 'house'; // default
     let elevatorAvailable = 'yes'; // default
     let furnitureInventory = {
@@ -208,12 +239,46 @@ document.addEventListener('DOMContentLoaded', () => {
         return Object.values(furnitureInventory).reduce((a, b) => a + b, 0);
     }
 
-    // Distance simulation based on string lengths
-    function simulateDistance(str1, str2) {
-        if (!str1 || !str2) return 0;
-        const combinedLength = str1.length + str2.length;
-        // Seed a distance between 5km and 55km based on lengths
-        return 5 + (combinedLength % 51);
+    // True if the address text mentions one of the cities we serve
+    function textInArea(text) {
+        const t = (text || '').toLowerCase();
+        if (/\b(ny|new york|usa)\b/.test(t)) return false; // Niagara Falls, NY is not our area
+        return SERVICE_CITIES.some(city => t.includes(city));
+    }
+
+    // Real driving distance via Google Maps Distance Matrix (debounced)
+    function ensureRoute(origin, destination) {
+        const key = origin + '|' + destination;
+        if (key === routeKey) return;
+        routeKey = key;
+        routeKm = null;
+        clearTimeout(routeTimer);
+        if (origin.length < 8 || destination.length < 8) { routeState = 'idle'; return; }
+        routeState = 'loading';
+        routeTimer = setTimeout(() => {
+            if (!(window.google && google.maps && google.maps.DistanceMatrixService)) {
+                routeState = 'error';
+                updateEstimate();
+                return;
+            }
+            new google.maps.DistanceMatrixService().getDistanceMatrix({
+                origins: [origin],
+                destinations: [destination],
+                travelMode: 'DRIVING',
+                unitSystem: google.maps.UnitSystem.METRIC
+            }, (res, status) => {
+                if (key !== routeKey) return; // stale response
+                const el = status === 'OK' && res && res.rows[0] && res.rows[0].elements[0];
+                if (el && el.status === 'OK') {
+                    routeKm = Math.round(el.distance.value / 100) / 10;
+                    routeState = 'ok';
+                } else {
+                    routeKm = null;
+                    routeState = 'error';
+                }
+                updateEstimate();
+            });
+        }, 700);
     }
 
     // Update quote estimate display
@@ -239,9 +304,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 sumHousingVal.textContent = selectedHousing === 'house' ? 'House / Ground Floor' : 'Apartment';
             }
 
-            // 3. Distance Calculation
-            const distance = simulateDistance(origin, destination);
-            if (sumDistanceVal) sumDistanceVal.textContent = `${distance} km`;
+            // 3. Distance (real driving distance via Google Maps)
+            ensureRoute(origin, destination);
+            const inArea = textInArea(origin) && textInArea(destination);
+            if (sumDistanceVal) {
+                sumDistanceVal.textContent = routeState === 'ok' ? `${routeKm} km`
+                    : (routeState === 'loading' ? 'Calculating...' : 'To be confirmed');
+            }
 
             // 4. Floors & Elevator Handling
             let floorsPrice = 0;
@@ -253,10 +322,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const totalFloors = Math.max(0, flOrigin - 1) + Math.max(0, flDest - 1);
                 if (elevatorAvailable === 'yes') {
                     if (sumElevatorVal) sumElevatorVal.textContent = 'Yes (Available)';
-                    floorsPrice = totalFloors * 5; // $5 per floor elevator fee
+                    floorsPrice = totalFloors * PRICING.elevatorPerFloor;
                 } else {
                     if (sumElevatorVal) sumElevatorVal.textContent = 'No (Stairs Only)';
-                    floorsPrice = totalFloors * 15; // $15 per floor stairs fee (heavy labor)
+                    floorsPrice = totalFloors * PRICING.stairsPerFloor;
                 }
             } else {
                 if (sumFloorsVal) sumFloorsVal.textContent = 'N/A (Ground Floor)';
@@ -284,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Custom comments items flat fee add-on
                 if (customText.length > 0) {
                     const customItemsCount = Math.min(5, Math.ceil(customText.split(',').length));
-                    furniturePrice += customItemsCount * 12; // $12 flat fee per custom item
+                    furniturePrice += customItemsCount * PRICING.customItem;
 
                     const tag = document.createElement('div');
                     tag.className = 'summary-furniture-tag';
@@ -297,12 +366,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     sumItemsList.innerHTML = '<span style="font-size:0.8rem;color:rgba(255,255,255,0.4)">No items selected</span>';
                 }
 
-                // 6. Cost Calculation
-                const basePrice = 120; // Base vehicle & booking cost
-                const distancePrice = distance * 2.5; // $2.50 per km
-                const totalPrice = basePrice + distancePrice + floorsPrice + furniturePrice;
-
-                if (sumPriceVal) sumPriceVal.textContent = `$${Math.round(totalPrice)}`;
+                // 6. Cost Calculation (only when the move is in our area and the real distance is known)
+                if (sumPriceVal) {
+                    if (!inArea) {
+                        sumPriceVal.textContent = 'Custom quote';
+                    } else if (routeState === 'loading') {
+                        sumPriceVal.textContent = 'Calculating...';
+                    } else if (routeState !== 'ok') {
+                        sumPriceVal.textContent = 'Custom quote';
+                    } else {
+                        const totalPrice = PRICING.base + (routeKm * PRICING.perKm) + floorsPrice + furniturePrice;
+                        sumPriceVal.textContent = `$${Math.round(totalPrice)}`;
+                    }
+                }
             }
         } else {
             // Restore empty state
@@ -460,9 +536,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // If all elements are valid, display the success modal
             if (isValid) {
-                showSuccessModal(nameVal, phoneVal, dateVal, originVal, destVal);
+                submitQuote(nameVal, phoneVal, dateVal, originVal, destVal);
             }
         });
+    }
+
+    // Send the request to Netlify Forms (you get it by email / in the Netlify dashboard)
+    function submitQuote(name, phone, date, origin, destination) {
+        const items = Object.keys(furnitureInventory)
+            .filter(k => furnitureInventory[k] > 0)
+            .map(k => `${furnitureConfig[k].label} x${furnitureInventory[k]}`)
+            .join(', ');
+        document.getElementById('hiddenHousing').value = selectedHousing;
+        document.getElementById('hiddenElevator').value = elevatorAvailable;
+        document.getElementById('hiddenItems').value = items;
+        document.getElementById('hiddenDistance').value = routeState === 'ok' ? routeKm : '';
+        document.getElementById('hiddenEstimate').value = sumPriceVal ? sumPriceVal.textContent : '';
+
+        const submitBtn = document.querySelector('.btn-submit-quote');
+        const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
+
+        fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(new FormData(quoteForm)).toString()
+        })
+            .then(res => {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                showSuccessModal(name, phone, date, origin, destination);
+            })
+            .catch(() => {
+                alert('We could not send your request. Please call or text us at 416-837-2397 and we will take care of it.');
+            })
+            .finally(() => {
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalBtnHtml; }
+            });
     }
 
     // Success Modal Overlay
@@ -492,12 +601,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <i class="fa-solid fa-truck-ramp-box"></i>
                 </div>
                 <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 12px; font-weight: 800;">Booking Request Received!</h3>
-                <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem;">Thank you, <strong>${name}</strong>. Your estimate has been processed successfully. An advisor will contact you at <strong>${phone}</strong> within 15 minutes to verify building policies and confirm the quote.</p>
+                <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem;">Thank you, <strong>${escapeHtml(name)}</strong>. Your request has been received. We will contact you at <strong>${escapeHtml(phone)}</strong> shortly to confirm the details and the final quote.</p>
                 
                 <div style="background-color: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 20px; text-align: left; margin-bottom: 30px; font-size: 0.9rem; line-height: 1.5;">
                     <div style="margin-bottom: 8px; color: var(--text-muted);"><strong>Service:</strong> <span style="color:#fff;">${serviceText}</span></div>
-                    <div style="margin-bottom: 8px; color: var(--text-muted);"><strong>Date:</strong> <span style="color:#fff;">${date}</span></div>
-                    <div style="margin-bottom: 8px; color: var(--text-muted);"><strong>Route:</strong> <span style="color:#fff;">${origin} ➔ ${destination}</span></div>
+                    <div style="margin-bottom: 8px; color: var(--text-muted);"><strong>Date:</strong> <span style="color:#fff;">${escapeHtml(date)}</span></div>
+                    <div style="margin-bottom: 8px; color: var(--text-muted);"><strong>Route:</strong> <span style="color:#fff;">${escapeHtml(origin)} ➔ ${escapeHtml(destination)}</span></div>
                     <div style="margin-bottom: 8px; color: var(--text-muted);"><strong>Housing:</strong> <span style="color:#fff;">${selectedHousing === 'house' ? 'House / Ground Floor' : 'Apartment'}</span></div>
                     <div style="margin-bottom: 8px; color: var(--text-muted);"><strong>Inventory Size:</strong> <span style="color:#fff;">${itemsCount} main items selected</span></div>
                     <div style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 12px; padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
@@ -556,6 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (firstElevatorOpt) firstElevatorOpt.click();
                     
                     // Reset Cost Estimate Summary
+                    routeKey = ''; routeKm = null; routeState = 'idle';
                     updateEstimate();
                     
                     // Smooth scroll to top
@@ -623,7 +733,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (lowerText.includes('price') || lowerText.includes('cost') || lowerText.includes('quote') || lowerText.includes('cuanto') || lowerText.includes('precio')) {
                     botResponse = "Of course! Prices vary just a bit depending on whether it's a full move, furnishing, or just a delivery. To get a real-time price, check out our new interactive moving calculator right here on the page!";
                 } else if (lowerText.includes('student') || lowerText.includes('estudiante')) {
-                    botResponse = "Absolutely! We love helping students out with special discounts. Tell us what you need using our interactive calculator form on the page and we'll apply any student discounts.";
+                    botResponse = "Absolutely! We help Brock and Niagara College students move. Tell us what you need using our calculator on the page and we'll send you a quote.";
                 } else if (lowerText.includes('deliver') || lowerText.includes('ikea') || lowerText.includes('marketplace') || lowerText.includes('entrega') || lowerText.includes('amoblar') || lowerText.includes('airbnb') || lowerText.includes('furnish')) {
                     botResponse = "Perfect! We do IKEA deliveries, furniture assembly, and even full Airbnb furnishings. Use our quote form to declare your items and get an instant cost estimate!";
                 } else if (lowerText.includes('contact') || lowerText.includes('phone') || lowerText.includes('call') || lowerText.includes('numero') || lowerText.includes('telefono')) {
@@ -631,7 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (lowerText.includes('hello') || lowerText.includes('hi') || lowerText.includes('hola') || lowerText.includes('hey')) {
                     botResponse = "Hi there! 👋 Great to hear from you. Are you looking for help with a move, a delivery, or some furnishing?";
                 } else if (lowerText.includes('insurance') || lowerText.includes('safe') || lowerText.includes('seguro')) {
-                    botResponse = "No worries, we are fully insured to protect all your items. They're in good hands!";
+                    botResponse = "Good question! Call or text us at 416-837-2397 and we'll explain how your items are handled and what coverage applies to your move.";
                 } else if (lowerText.includes('pay') || lowerText.includes('payment') || lowerText.includes('stripe') || lowerText.includes('deposit') || lowerText.includes('pagar') || lowerText.includes('deposito')) {
                     botResponse = "You can pay securely right here on our website! Check out our 'Payments' section to lock in your date with a deposit or settle an invoice via Stripe.";
                 }
@@ -667,14 +777,23 @@ function initAutocomplete() {
     const dropoffInput = document.getElementById('inputDestination');
 
     const options = {
+        bounds: window.google && google.maps ? new google.maps.LatLngBounds(
+            { lat: NIAGARA_BOUNDS.south, lng: NIAGARA_BOUNDS.west },
+            { lat: NIAGARA_BOUNDS.north, lng: NIAGARA_BOUNDS.east }
+        ) : undefined,
+        strictBounds: false, // bias only; outside addresses still get a custom quote
         componentRestrictions: { country: 'ca' }, // Limit suggestions to Canada
         fields: ['address_components', 'geometry', 'name', 'formatted_address'],
         types: ['address']
     };
 
     if (window.google && google.maps && google.maps.places) {
-        if (pickupInput) new google.maps.places.Autocomplete(pickupInput, options);
-        if (dropoffInput) new google.maps.places.Autocomplete(dropoffInput, options);
+        [pickupInput, dropoffInput].forEach(input => {
+            if (!input) return;
+            const ac = new google.maps.places.Autocomplete(input, options);
+            // Autocomplete fills the field without firing 'input', so trigger it manually
+            ac.addListener('place_changed', () => input.dispatchEvent(new Event('input', { bubbles: true })));
+        });
     }
 }
 

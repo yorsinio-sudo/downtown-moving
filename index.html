@@ -6,57 +6,53 @@
     
     <!-- SEO Meta Tags -->
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://downtownmoving.netlify.app/">
-    <title>downTOwn Moving | Small Moves, IKEA Delivery & Airbnb Furnishing in Toronto</title>
-    <meta name="description" content="Top-rated local movers in Toronto & GTA. Specializing in condo micro-moves, student relocations, IKEA delivery, furniture assembly, and Airbnb furnishing setups. Fast and reliable service.">
-    <meta name="keywords" content="Toronto movers, small moves Toronto, condo movers GTA, IKEA delivery Toronto, Airbnb furnishing Toronto, furniture assembly Toronto, student moving UofT, moving company Toronto, professional movers GTA, cheap moving Toronto">
-    <meta name="author" content="downTOwn Moving">
-    
+    <link rel="canonical" href="https://downtownmoving.ca/">
+    <title>Movers in St. Catharines, Welland &amp; Niagara Falls | Small Moves &amp; Delivery | Downtown Moving</title>
+    <meta name="description" content="Local movers in St. Catharines, Welland, Niagara Falls, Niagara-on-the-Lake, Thorold, Pelham, Grimsby and Lincoln. Apartment moves, student relocations, Marketplace &amp; IKEA delivery, furniture assembly. Get an instant quote.">
+    <meta name="keywords" content="movers St. Catharines, movers Welland, movers Niagara Falls, movers Niagara-on-the-Lake, movers Thorold, movers Pelham, movers Grimsby, small moves Niagara, student movers Brock University, Niagara College movers, IKEA delivery St. Catharines, furniture assembly St. Catharines, TV mounting St. Catharines, Airbnb furnishing Niagara Falls, apartment movers Niagara">
+    <meta name="author" content="Downtown Moving">
+
     <!-- Open Graph for Social Media sharing -->
-    <meta property="og:title" content="downTOwn Moving | Toronto Small Moves & Deliveries">
-    <meta property="og:description" content="Fast, reliable condo moves, IKEA deliveries, and Airbnb furnishing in Toronto & GTA.">
+    <meta property="og:title" content="Downtown Moving | Small Moves &amp; Deliveries in St. Catharines &amp; Niagara">
+    <meta property="og:description" content="Apartment moves, student relocations, IKEA &amp; Marketplace delivery and furniture assembly in St. Catharines, Welland, Niagara Falls and across the Niagara Region.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://downtownmoving.netlify.app/">
+    <meta property="og:url" content="https://downtownmoving.ca/">
+    <meta property="og:image" content="https://downtownmoving.ca/assets/hero-truck.jpg">
     <meta property="og:locale" content="en_CA">
 
     <!-- Schema.org for Local SEO -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "downTOwn Moving",
-      "image": "https://downtownmoving.netlify.app/assets/logo.png",
-      "@id": "https://downtownmoving.netlify.app",
-      "url": "https://downtownmoving.netlify.app",
+      "@type": "MovingCompany",
+      "name": "Downtown Moving",
+      "image": "https://downtownmoving.ca/assets/hero-truck.jpg",
+      "@id": "https://downtownmoving.ca/",
+      "url": "https://downtownmoving.ca/",
       "telephone": "+14168372397",
-      "priceRange": "$$",
+      "email": "downtoronto1@gmail.com",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Downtown",
-        "addressLocality": "Toronto",
+        "addressLocality": "St. Catharines",
         "addressRegion": "ON",
-        "postalCode": "M5V",
         "addressCountry": "CA"
       },
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": 43.6426,
-        "longitude": -79.3871
+        "latitude": 43.1594,
+        "longitude": -79.2469
       },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday"
-        ],
-        "opens": "00:00",
-        "closes": "23:59"
-      },
+      "areaServed": [
+        {"@type": "City", "name": "St. Catharines"},
+        {"@type": "City", "name": "Thorold"},
+        {"@type": "City", "name": "Niagara-on-the-Lake"},
+        {"@type": "City", "name": "Niagara Falls"},
+        {"@type": "City", "name": "Welland"},
+        {"@type": "City", "name": "Pelham"},
+        {"@type": "City", "name": "Grimsby"},
+        {"@type": "City", "name": "Lincoln"},
+        {"@type": "AdministrativeArea", "name": "Niagara Region"}
+      ],
       "sameAs": [
         "https://wa.me/14168372397"
       ]
@@ -70,10 +66,6 @@
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Leaflet CSS/JS for real-time OSM fallback mapping -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -82,11 +74,12 @@
     <nav id="navbar" class="glass-navbar">
         <div class="nav-container">
             <a href="#" class="logo">
-                <i class="fa-solid fa-truck-fast"></i> downTOwn<span>Moving</span>
+                <i class="fa-solid fa-truck-fast"></i> Downtown<span>Moving</span>
             </a>
             <ul class="nav-links">
                 <li><a href="#inicio">Home</a></li>
                 <li><a href="#servicios">Services</a></li>
+                <li><a href="#areas">Areas</a></li>
                 <li><a href="#beneficios">Why Us</a></li>
                 <li><a href="#pagos">Payments</a></li>
                 <li><a href="#contacto">Contact</a></li>
@@ -105,8 +98,8 @@
         </video>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1 class="animate-fade-up">Fast & Affordable<br><span>Small Moves in Toronto</span></h1>
-            <p class="animate-fade-up delay-1">Specializing in condo moves, student relocations, Airbnb furnishing, and IKEA deliveries across the GTA.</p>
+            <h1 class="animate-fade-up">Fast &amp; Affordable<br><span>Small Moves in St. Catharines &amp; the Niagara Region</span></h1>
+            <p class="animate-fade-up delay-1">Apartment moves, student relocations, Marketplace &amp; IKEA delivery, furniture assembly and Airbnb furnishing across the Niagara Region.</p>
             <div class="hero-buttons animate-fade-up delay-2">
                 <a href="#contacto" class="btn-primary">Get an Instant Quote</a>
                 <a href="#servicios" class="btn-secondary">Our Services</a>
@@ -134,7 +127,7 @@
                     <i class="fa-solid fa-building"></i>
                 </div>
                 <h3>Condo & Apartment Moves</h3>
-                <p>Fast and efficient moving between condos. We know how to handle elevators, tight spaces, and building rules.</p>
+                <p>Fast and efficient moving between apartments and condos in St. Catharines, Niagara Falls and across Niagara. We handle elevators, tight spaces, and building rules.</p>
             </div>
             <!-- Servicio 2 -->
             <div class="service-card fade-element delay-1">
@@ -142,7 +135,7 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <h3>Student Relocations</h3>
-                <p>Moving from a dorm or renting a single room? We offer special flat rates for students across UofT, TMU, and York.</p>
+                <p>Moving from a dorm or renting a single room? Ask about our student rates for Brock University and Niagara College.</p>
             </div>
             <!-- Servicio 3 -->
             <div class="service-card fade-element delay-2">
@@ -182,9 +175,29 @@
                     <i class="fa-solid fa-bed"></i>
                 </div>
                 <h3>Airbnb & Rental Furnishing</h3>
-                <p>Complete furnishing setup for long-term rentals, Airbnbs, and more. We handle delivery, assembly, and staging.</p>
+                <p>Complete furnishing setup for long-term rentals and Airbnbs in Niagara Falls, Niagara-on-the-Lake and beyond. We handle delivery, assembly, and staging.</p>
             </div>
         </div>
+    </section>
+
+    <!-- Areas Section -->
+    <section id="areas" class="areas section-padding">
+        <div class="section-header fade-element">
+            <p class="subtitle">WHERE WE WORK</p>
+            <h2>Serving St. Catharines &amp; the Niagara Region</h2>
+            <p>Based in St. Catharines, we cover moves, deliveries and furniture setup in the cities below and nearby towns.</p>
+        </div>
+        <ul class="areas-list fade-element">
+            <li><i class="fa-solid fa-location-dot"></i> St. Catharines</li>
+            <li><i class="fa-solid fa-location-dot"></i> Thorold</li>
+            <li><i class="fa-solid fa-location-dot"></i> Niagara-on-the-Lake</li>
+            <li><i class="fa-solid fa-location-dot"></i> Niagara Falls</li>
+            <li><i class="fa-solid fa-location-dot"></i> Welland</li>
+            <li><i class="fa-solid fa-location-dot"></i> Pelham</li>
+            <li><i class="fa-solid fa-location-dot"></i> Grimsby</li>
+            <li><i class="fa-solid fa-location-dot"></i> Lincoln</li>
+        </ul>
+        <p class="areas-note fade-element">Moving somewhere else? <a href="https://wa.me/14168372397" target="_blank" rel="noopener">Message us</a> and we will quote it individually.</p>
     </section>
 
     <!-- Beneficios Section -->
@@ -193,30 +206,30 @@
             <div class="benefits-text fade-element">
                 <p class="subtitle">WHY CHOOSE US</p>
                 <h2>Excellence in every step of the move</h2>
-                <p>Over a decade of experience backs us up. We understand that moving is a life change, which is why we offer a turnkey solution for your peace of mind.</p>
+                <p>We understand that moving is a life change, which is why we keep it simple: clear pricing, careful handling and a team that shows up on time.</p>
                 
                 <ul class="benefits-list">
-                    <li><i class="fa-solid fa-circle-check"></i> <strong>Fully Insured:</strong> Your investment is 100% protected.</li>
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>Careful Handling:</strong> We treat your items as if they were our own.</li>
                     <li><i class="fa-solid fa-circle-check"></i> <strong>Punctuality Guaranteed:</strong> We respect your time to the maximum.</li>
-                    <li><i class="fa-solid fa-circle-check"></i> <strong>Real-time Tracking:</strong> Always know where your belongings are.</li>
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>Clear Pricing:</strong> Get an estimate online before you book.</li>
                 </ul>
             </div>
             <div class="benefits-stats fade-element delay-1">
                 <div class="stat-box">
-                    <h3>10+</h3>
-                    <p>Years of Experience</p>
+                    <h3>7</h3>
+                    <p>Specialized Services</p>
                 </div>
                 <div class="stat-box highlighted">
-                    <h3>5k+</h3>
-                    <p>Successful Moves</p>
+                    <h3>Free</h3>
+                    <p>Instant Quote</p>
                 </div>
                 <div class="stat-box">
-                    <h3>100%</h3>
-                    <p>Satisfaction Guarantee</p>
+                    <h3>Niagara</h3>
+                    <p>Local Service Area</p>
                 </div>
                 <div class="stat-box">
-                    <h3>24/7</h3>
-                    <p>Customer Support</p>
+                    <h3>Text</h3>
+                    <p>or WhatsApp Us</p>
                 </div>
             </div>
         </div>
@@ -279,6 +292,7 @@
                     <h3>Secure Deposit</h3>
                     <p>Pay your $50 deposit to lock in your moving date and time slot.</p>
                     <div class="price">$50<span>.00</span></div>
+                    <!-- TODO: replace this TEST Stripe link with your LIVE Payment Link before taking real deposits -->
                     <a href="https://buy.stripe.com/test_aFabJ3d2ug5WaAZ73Fco000" class="btn-gold-outline stripe-button">Pay Deposit Now</a>
                 </div>
 
@@ -315,7 +329,7 @@
                 <div class="contact-intro">
                     <p class="subtitle">GET A QUOTE</p>
                     <h2>Interactive Moving Calculator</h2>
-                    <p>Calculate your move instantly! Adjust the origin and destination addresses to estimate distance, choose your housing type, and select your furniture count. Our interactive calculator runs anti-abuse validations to provide a transparent live estimate.</p>
+                    <p>Estimate your move in St. Catharines and across Niagara. Enter the origin and destination addresses, choose your housing type and select your furniture. Moves outside Niagara get a custom quote.</p>
                 </div>
                 <div class="contact-quick-info">
                     <div class="quick-info-item">
@@ -339,7 +353,7 @@
                         <i class="fa-solid fa-location-dot"></i>
                         <div>
                             <h4>Headquarters</h4>
-                            <p>Downtown Toronto, ON</p>
+                            <p>St. Catharines, ON<br>Serving the Niagara Region</p>
                         </div>
                     </div>
                 </div>
@@ -349,7 +363,14 @@
             <div class="quote-layout">
                 <!-- Form Container -->
                 <div class="quote-form-card glass-form">
-                    <form id="quoteForm" novalidate>
+                    <form id="quoteForm" name="quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+                        <input type="hidden" name="form-name" value="quote">
+                        <p style="display:none;"><label>Do not fill this out: <input name="bot-field"></label></p>
+                        <input type="hidden" name="housing" id="hiddenHousing" value="house">
+                        <input type="hidden" name="elevator" id="hiddenElevator" value="yes">
+                        <input type="hidden" name="items" id="hiddenItems" value="">
+                        <input type="hidden" name="distance_km" id="hiddenDistance" value="">
+                        <input type="hidden" name="estimate" id="hiddenEstimate" value="">
                         <!-- Section 1: Customer Details -->
                         <h3 class="form-section-title">
                             <i class="fa-solid fa-user text-gold"></i> Personal Information
@@ -357,24 +378,24 @@
                         <div class="form-group-row">
                             <div class="form-group">
                                 <label for="inputName" class="form-label">Full Name <span>*</span></label>
-                                <input type="text" id="inputName" class="form-control" placeholder="E.g. John Doe" required>
+                                <input type="text" id="inputName" name="name" class="form-control" placeholder="E.g. John Doe" required>
                                 <div class="validation-error-msg">Name is required.</div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPhone" class="form-label">Phone Number <span>*</span></label>
-                                <input type="tel" id="inputPhone" class="form-control" placeholder="E.g. 416-123-4567" required>
+                                <input type="tel" id="inputPhone" name="phone" class="form-control" placeholder="E.g. 289-123-4567" required>
                                 <div class="validation-error-msg">Valid phone number is required.</div>
                             </div>
                         </div>
                         <div class="form-group-row">
                             <div class="form-group">
                                 <label for="inputDate" class="form-label">Estimated Date <span>*</span></label>
-                                <input type="date" id="inputDate" class="form-control" required>
+                                <input type="date" id="inputDate" name="date" class="form-control" required>
                                 <div class="validation-error-msg">Estimated date is required.</div>
                             </div>
                             <div class="form-group">
                                 <label for="selectService" class="form-label">Service Required <span>*</span></label>
-                                <select id="selectService" class="form-control" required>
+                                <select id="selectService" name="service" class="form-control" required>
                                     <option value="">Select a service...</option>
                                     <option value="residencial" selected>Condo & Apartment Move</option>
                                     <option value="student">Student Relocation</option>
@@ -395,12 +416,12 @@
                         <div class="form-group-row">
                             <div class="form-group">
                                 <label for="inputOrigin" class="form-label">Origin Address <span>*</span></label>
-                                <input type="text" id="inputOrigin" class="form-control" placeholder="E.g. 100 Queen St W, Toronto, ON" required>
+                                <input type="text" id="inputOrigin" name="origin" class="form-control" placeholder="E.g. 50 James St, St. Catharines, ON" required>
                                 <div class="validation-error-msg">Origin address is required.</div>
                             </div>
                             <div class="form-group">
                                 <label for="inputDestination" class="form-label">Destination Address <span>*</span></label>
-                                <input type="text" id="inputDestination" class="form-control" placeholder="E.g. 250 Yonge St, Toronto, ON" required>
+                                <input type="text" id="inputDestination" name="destination" class="form-control" placeholder="E.g. 120 Lundy's Lane, Niagara Falls, ON" required>
                                 <div class="validation-error-msg">Destination address is required.</div>
                             </div>
                         </div>
@@ -428,12 +449,12 @@
                             <div class="form-group-row" style="margin-bottom: 0;">
                                 <div class="form-group">
                                     <label for="floorOrigin" class="form-label">Origin Floor <span>*</span></label>
-                                    <input type="number" id="floorOrigin" class="form-control" value="1" min="1" max="100" disabled>
+                                    <input type="number" id="floorOrigin" name="floor_origin" class="form-control" value="1" min="1" max="100" disabled>
                                     <div class="validation-error-msg">Floor is required (min 1).</div>
                                 </div>
                                 <div class="form-group">
                                     <label for="floorDest" class="form-label">Destination Floor <span>*</span></label>
-                                    <input type="number" id="floorDest" class="form-control" value="1" min="1" max="100" disabled>
+                                    <input type="number" id="floorDest" name="floor_destination" class="form-control" value="1" min="1" max="100" disabled>
                                     <div class="validation-error-msg">Floor is required (min 1).</div>
                                 </div>
                             </div>
@@ -548,7 +569,7 @@
                             <!-- Custom items -->
                             <div class="furniture-custom-group form-group">
                                 <label for="customFurniture" class="form-label">Other items or special handling details</label>
-                                <textarea id="customFurniture" class="form-control" rows="3" placeholder="E.g. Large mirror, heavy piano, art collections. Separate items with commas." style="resize: none;"></textarea>
+                                <textarea id="customFurniture" name="notes" class="form-control" rows="3" placeholder="E.g. Large mirror, heavy piano, art collections. Separate items with commas." style="resize: none;"></textarea>
                             </div>
 
                             <div id="furnitureError" class="validation-error-msg" style="margin-top: 15px;"></div>
@@ -636,14 +657,12 @@
         <div class="footer-content">
             <div class="footer-brand">
                 <a href="#" class="logo">
-                    <i class="fa-solid fa-truck-fast"></i> downTOwn<span>Moving</span>
+                    <i class="fa-solid fa-truck-fast"></i> Downtown<span>Moving</span>
                 </a>
-                <p>Your reliable partner for safe, fast, and efficient moves across the GTA.</p>
+                <p>Your reliable partner for safe, fast, and efficient moves in St. Catharines and across Niagara.</p>
                 <div class="social-links">
                     <a href="https://wa.me/14168372397" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                    <!-- Add your real Facebook / Instagram page links here when they exist -->
                 </div>
             </div>
             <div class="footer-links">
@@ -651,6 +670,7 @@
                 <ul>
                     <li><a href="#inicio">Home</a></li>
                     <li><a href="#servicios">Services</a></li>
+                    <li><a href="#areas">Areas</a></li>
                     <li><a href="#beneficios">Why Us</a></li>
                     <li><a href="#contacto">Contact</a></li>
                 </ul>
@@ -658,15 +678,15 @@
             <div class="footer-links">
                 <h3>Services</h3>
                 <ul>
-                    <li><a href="#">Local Moving</a></li>
-                    <li><a href="#">Student Relocations</a></li>
-                    <li><a href="#">IKEA Delivery</a></li>
-                    <li><a href="#">Airbnb Furnishing</a></li>
+                    <li><a href="#servicios">Local Moving</a></li>
+                    <li><a href="#servicios">Student Relocations</a></li>
+                    <li><a href="#servicios">IKEA Delivery</a></li>
+                    <li><a href="#servicios">Airbnb Furnishing</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 downTOwn Moving. All rights reserved. | Designed with <i class="fa-solid fa-heart" style="color:var(--accent);"></i> by Antigravity</p>
+            <p>&copy; 2026 Downtown Moving. All rights reserved. | Designed with <i class="fa-solid fa-heart" style="color:var(--accent);"></i> by Antigravity</p>
         </div>
     </footer>
 
@@ -687,7 +707,7 @@
             </div>
             <div class="chat-body" id="chat-body">
                 <div class="chat-message bot">
-                    <p>Hi there! 👋 Welcome to downTOwn Moving. How can I help you today? Are you looking for help with a move, delivery, or furnishing?</p>
+                    <p>Hi there! 👋 Welcome to Downtown Moving. How can I help you today? Are you looking for help with a move, delivery, or furnishing?</p>
                 </div>
             </div>
             <div class="chat-footer">

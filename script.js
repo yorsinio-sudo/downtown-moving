@@ -12,8 +12,9 @@ const SERVICE_CITIES = [
     'lincoln, on', 'beamsville', 'vineland'
 ];
 const PRICING = {
-    base: 120,           // base vehicle & booking cost ($)
-    perKm: 2.5,          // $ per driving km (real distance from Google Maps)
+    base: 95,            // base vehicle & booking cost ($)
+    minimum: 120,        // minimum price for any job ($)
+    perKm: 2,            // $ per driving km (real distance from Google Maps)
     elevatorPerFloor: 5, // $ per floor when an elevator is available
     stairsPerFloor: 15,  // $ per floor when stairs only
     customItem: 12       // $ per special item typed in "Other items"
@@ -149,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nevera: { label: 'Refrigerator', price: 35 },
         lavadora: { label: 'Washing Machine', price: 25 },
         tv: { label: 'Television', price: 15 },
-        caja: { label: 'Boxes / Bags', price: 5 },
+        caja: { label: 'Boxes / Bags', price: 4 },
         armario: { label: 'Wardrobe / Closet', price: 35 }
     };
 
@@ -375,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else if (routeState !== 'ok') {
                         sumPriceVal.textContent = 'Custom quote';
                     } else {
-                        const totalPrice = PRICING.base + (routeKm * PRICING.perKm) + floorsPrice + furniturePrice;
+                        const totalPrice = Math.max(PRICING.minimum, PRICING.base + (routeKm * PRICING.perKm) + floorsPrice + furniturePrice);
                         sumPriceVal.textContent = `$${Math.round(totalPrice)}`;
                     }
                 }
@@ -743,7 +744,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (lowerText.includes('insurance') || lowerText.includes('safe') || lowerText.includes('seguro')) {
                     botResponse = "Good question! Call or text us at 416-837-2397 and we'll explain how your items are handled and what coverage applies to your move.";
                 } else if (lowerText.includes('pay') || lowerText.includes('payment') || lowerText.includes('stripe') || lowerText.includes('deposit') || lowerText.includes('pagar') || lowerText.includes('deposito')) {
-                    botResponse = "You can pay securely right here on our website! Check out our 'Payments' section to lock in your date with a deposit or settle an invoice via Stripe.";
+                    botResponse = "Request your quote with our calculator and we will contact you to confirm the final price and how to pay. You can also call or text us at 416-837-2397.";
                 }
 
                 removeTypingIndicator();

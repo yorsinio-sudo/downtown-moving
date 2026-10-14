@@ -731,7 +731,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let botResponse = "Hi! To give you the best service and make sure I have all the details right, could you fill out the quick form on our page? Or if you prefer, give us a quick call at 416-837-2397!";
             
             setTimeout(() => {
-                if (lowerText.includes('price') || lowerText.includes('cost') || lowerText.includes('quote') || lowerText.includes('cuanto') || lowerText.includes('precio')) {
+                if (lowerText.includes('toronto') || lowerText.includes('gta') || lowerText.includes('long distance') || lowerText.includes('far') || lowerText.includes('hamilton') || lowerText.includes('lejos')) {
+                    botResponse = "Yes! Besides Niagara, we do moves from Toronto/GTA to Niagara and other destinations. Each one is quoted individually: enter your addresses in the calculator or text us at 416-837-2397.";
+                } else if (lowerText.includes('price') || lowerText.includes('cost') || lowerText.includes('quote') || lowerText.includes('cuanto') || lowerText.includes('precio')) {
                     botResponse = "Of course! Prices vary just a bit depending on whether it's a full move, furnishing, or just a delivery. To get a real-time price, check out our new interactive moving calculator right here on the page!";
                 } else if (lowerText.includes('student') || lowerText.includes('estudiante')) {
                     botResponse = "Absolutely! We help Brock and Niagara College students move. Tell us what you need using our calculator on the page and we'll send you a quote.";

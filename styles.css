@@ -1695,3 +1695,72 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+.route-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--accent-hover);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   Photo blocks (replace videos in Services and Real Results)
+========================================= */
+.services-photo-container {
+    max-width: 1200px;
+    background: var(--white);
+}
+
+.services-photo,
+.work-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.photo-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.swipe-hint {
+    display: none;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #777;
+    padding: 6px 0 2px;
+}
+
+.work-photo-container {
+    width: 100%;
+    overflow: hidden;
+    background: #f3efe6;
+}
+
+.work-item--wide {
+    grid-column: 1 / -1;
+}
+
+.work-item--center {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: 780px;
+    justify-self: center;
+}
+
+@media (max-width: 768px) {
+    .photo-scroll img {
+        min-width: 760px;
+    }
+    .swipe-hint {
+        display: block;
+    }
+}
+
+.services-photo-container--narrow {
+    max-width: 520px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}

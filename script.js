@@ -524,7 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (furnitureCount === 0 && customText === '') {
                 if (furnitureError) {
-                    furnitureError.textContent = 'Anti-Abuse Rule: Please select at least 1 item or describe your belongings under "Other items".';
+                    furnitureError.textContent = 'Please add at least one item or describe your belongings under "Other items".';
                     furnitureError.style.display = 'block';
                 }
                 isValid = false;
@@ -701,7 +701,9 @@ document.addEventListener('DOMContentLoaded', () => {
         function addMessage(text, sender) {
             const msgDiv = document.createElement('div');
             msgDiv.classList.add('chat-message', sender);
-            msgDiv.innerHTML = `<p>${text}</p>`;
+            const messageParagraph = document.createElement('p');
+            messageParagraph.textContent = text;
+            msgDiv.appendChild(messageParagraph);
             chatBody.appendChild(msgDiv);
             chatBody.scrollTop = chatBody.scrollHeight;
         }
@@ -731,7 +733,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let botResponse = "Hi! To give you the best service and make sure I have all the details right, could you fill out the quick form on our page? Or if you prefer, give us a quick call at 416-837-2397!";
             
             setTimeout(() => {
-                if (lowerText.includes('toronto') || lowerText.includes('gta') || lowerText.includes('long distance') || lowerText.includes('far') || lowerText.includes('hamilton') || lowerText.includes('lejos')) {
+                if (lowerText.includes('address') || lowerText.includes('location') || lowerText.includes('where are') || lowerText.includes('ubicacion') || lowerText.includes('direccion')) {
+                    botResponse = "We are based in St. Catharines and serve Niagara. We come to you and do not receive customers at our base. Use the quote form or WhatsApp to contact our team.";
+                } else if (lowerText.includes('toronto') || lowerText.includes('gta') || lowerText.includes('long distance') || lowerText.includes('far') || lowerText.includes('hamilton') || lowerText.includes('lejos')) {
                     botResponse = "Yes! Besides Niagara, we do moves from Toronto/GTA to Niagara and other destinations. Each one is quoted individually: enter your addresses in the calculator or text us at 416-837-2397.";
                 } else if (lowerText.includes('price') || lowerText.includes('cost') || lowerText.includes('quote') || lowerText.includes('cuanto') || lowerText.includes('precio')) {
                     botResponse = "Of course! Prices vary just a bit depending on whether it's a full move, furnishing, or just a delivery. To get a real-time price, check out our new interactive moving calculator right here on the page!";
